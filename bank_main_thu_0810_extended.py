@@ -1,14 +1,30 @@
+#Client class
+#name
+#timestamp (optional)
+
 import datetime
+from turtle import settiltangle
+
+#UZDEVUMS: izveido klasi Transaction
+class Transaction:
+    def __init__(self, amount: float = 0, note: str = ''):
+        self.amount = amount
+        self.note = note
+        self.timestamp = datetime.datetime.now()
 
 class Account:
     auto_account_number = 1234567890
     
     def __init__(self, currency: str, initial_balance: float = 0):
-        self.account_number = Account.auto_account_number
+        self._account_number = Account.auto_account_number
         Account.auto_account_number += 1
         self.currency = currency
         self.initial_balance = initial_balance
         self.timestamp = datetime.datetime.now()
+
+    @property #decorators
+    def account_number(self):
+        return self._account_number
 
 class Client:
     def __init__(self, name: str):
@@ -20,29 +36,26 @@ class Client:
         self.accounts.append(account)
 
     def print_accounts(self):
-        print(f'All acounts of client {self.name}')
-        for a in self.accounts:
-            print(f'{a.account_number} ({a.currency} {a.initial_balance})')
+        print(f'Accounts of client {self.name}')
+        for account in self.accounts:
+            print(f'{account.account_number} ({account.currency} {account.initial_balance})')        
 
-#UZDEVUMS
-#Izveido klientam funkciju/metodi print_accounts kas izvada visus
-#klienta konta numurus
+clients = []
+clients.append(Client('Anna'))
+clients.append(Client('Jenifer'))
+clients.append(Client('Miki'))
 
-#PIEMĒRS:
-#All acounts of client Anna
-#1234567890 (EUR 500)
-#1234567891 (USD 200)
-#1234567892 (JPY 4000)
+clients[0].add_account(Account('EUR', 200))
+clients[0].add_account(Account('USD', 150))
+clients[0].add_account(Account('CAD', 300))
 
-c1 = Client('Anna')
-c2 = Client('Jenifer')
+clients[1].add_account(Account('EUR', 800))
+clients[1].add_account(Account('JPY', 10000))
 
-c1.add_account(Account('EUR', 500))
-c1.add_account(Account('USD', 200))
-c1.add_account(Account('JPY', 4000))
+clients[2].add_account(Account('EUR'))
 
-c1.print_accounts()
+clients[0].accounts[0].account_number = '999999999999'
 
-#uzhako Annas kontu un izdzēš USD kontu
-c1.accounts.pop(1)
-c1.print_accounts()
+
+for client in clients:
+    client.print_accounts()
