@@ -4,6 +4,13 @@
 
 import datetime
 
+#UZDEVUMS: izveido klasi Transaction
+class Transaction:
+    def __init__(self, amount: float = 0, note: str = ''):
+        self.amount = amount
+        self.note = note
+        self.timestamp = datetime.datetime.now()
+
 class Account:
     auto_account_number = 1234567890
     
@@ -22,25 +29,33 @@ class Client:
 
     def add_account(self, account: Account):
         self.accounts.append(account)
-#Izveido komandā funkciju/metodi (add_account), kas pievienos klietam kontu
 
-c1 = Client('Anna')
-#print(f'{c1.name} {c1.timestamp}')
+    def print_accounts(self):
+        print(f'Accounts of client {self.name}')
+        for account in self.accounts:
+            print(f'{account.account_number} ({account.currency} {account.initial_balance})')        
 
-c2 = Client('Jenifer')
-#print(f'{c2.name} {c2.timestamp}')
-
-#Account
-#auto_account_number (automaticly assigned starting from 1234567890)
-#currency: str (teksta datu tips: 'EUR', 'PLN', 'USD')
-#initial_balance: float (decimala datu tips: 100.54, 458.63)
-#timestamp
-
+#UZDEVUMS: izveido metodu klientiem, kas izdrukā visus lklienta kontus šādā formātā:
+#PIEMĒRS
+#Accounts of client Anna
+#1234567890 (EUR 200)
+#1234567891 (USD 150)
+#1234567892 (CAD 300)  
 
 
-a1 = Account('EUR')
-print(a1.account_number)
-a2 = Account('USD')
-print(a2.account_number)
-a3 = Account('JPY')
-print(a3.account_number)
+clients = []
+clients.append(Client('Anna'))
+clients.append(Client('Jenifer'))
+clients.append(Client('Miki'))
+
+clients[0].add_account(Account('EUR', 200))
+clients[0].add_account(Account('USD', 150))
+clients[0].add_account(Account('CAD', 300))
+
+clients[1].add_account(Account('EUR', 800))
+clients[1].add_account(Account('JPY', 10000))
+
+clients[2].add_account(Account('EUR'))
+
+for client in clients:
+    client.print_accounts()
