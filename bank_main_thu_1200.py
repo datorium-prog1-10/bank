@@ -1,16 +1,13 @@
-#Uzdevums
-#Define a class
-#Client
-#name (must be given)
-#timestamp (program automatically should assign value)
-
-#Account
-#account_number: assign automatically starting from 1234567890
-#currency: text
-#initial_balance: decimal number
-#timestamp: date and time
-
 import datetime
+
+#UZDEVUMS: izveido klasi Transaction.
+
+class Transaction:
+    def __init__(self, amount: float = 0, note: str = ''):
+        self.amount = amount
+        self.note = note
+        self.timestamp = datetime.datetime.now()
+
 
 class Account:
     auto_account_number = 1234567890
@@ -31,8 +28,23 @@ class Client:
     def add_account(self, account: Account):
         self.accounts.append(account)
 
-c1 = Client('Anna')
-c1.add_account(Account('EUR', 200))
-c1.add_account(Account('USD', 150))
-c1.add_account(Account('JPY', 4000))
+    def introduce(self):
+        print(f"Hi, my name is {self.name}, I have {len(self.accounts)} accounts in your bank.")
 
+
+clients = []
+clients.append(Client('Anna'))
+clients.append(Client('Jenifer'))
+clients.append(Client('Olga'))
+
+clients[0].add_account(Account('EUR', 200))
+clients[0].add_account(Account('USD', 150))
+clients[0].add_account(Account('CAD', 300))
+
+clients[1].add_account(Account('EUR', 800))
+clients[1].add_account(Account('JPY', 10000))
+
+clients[2].add_account(Account('EUR'))
+
+for client in clients:
+    client.introduce()

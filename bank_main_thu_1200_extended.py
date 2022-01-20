@@ -1,14 +1,25 @@
 import datetime
 
+class Transaction:
+    def __init__(self, amount: float = 0, note: str = ''):
+        self.amount = amount
+        self.note = note
+        self.timestamp = datetime.datetime.now()
+
+
 class Account:
     auto_account_number = 1234567890
 
     def __init__(self, currency: str, initial_balance: float = 0):
-        self.account_number = Account.auto_account_number
+        self._account_number = Account.auto_account_number
         Account.auto_account_number += 1
         self.currency = currency
         self.initial_balance = initial_balance
         self.timestamp = datetime.datetime.now()
+
+    @property
+    def account_number(self):
+        return self._account_number
 
 class Client:
     def __init__(self, name: str):
@@ -18,27 +29,33 @@ class Client:
     
     def add_account(self, account: Account):
         self.accounts.append(account)
+
+    def introduce(self):
+        print('=============================================')
+        print(f"Hi, my name is {self.name}, I have {len(self.accounts)} accounts in your bank.")
     
     def print_accounts(self):
-        print(f'Accounts for client {self.name}')
-        for acc in self.accounts:
-            print(f'{acc.account_number} ({acc.currency} {acc.initial_balance})')
+        print(f'Accounts of client {self.name}')
+        for account in self.accounts:
+            print(f'{account.account_number} ({account.currency} {account.initial_balance})')
 
+    
+clients = []
+clients.append(Client('Anna'))
+clients.append(Client('Jenifer'))
+clients.append(Client('Olga'))
 
-c1 = Client('Anna')
-c2 = Client('Jenifer')
-c3 = Client('Miki')
+clients[0].add_account(Account('EUR', 200))
+clients[0].add_account(Account('USD', 150))
+clients[0].add_account(Account('CAD', 300))
 
-c1.add_account(Account('EUR', 200))
-c1.add_account(Account('USD', 150))
-c1.add_account(Account('JPY', 4000))
+clients[1].add_account(Account('EUR', 800))
+clients[1].add_account(Account('JPY', 10000))
 
-#hack and delete Anna's USD account
-c1.accounts.pop(1)
+clients[2].add_account(Account('EUR'))
 
-c2.add_account(Account('EUR', 800))
-c2.add_account(Account('SEK', 70000))
+clients[0].accounts[0].account_number = '9999999999'
 
-c1.print_accounts()
-c2.print_accounts()
-c3.print_accounts()
+for client in clients:
+    client.introduce()
+    client.print_accounts()
