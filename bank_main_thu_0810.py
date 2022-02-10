@@ -17,9 +17,22 @@ class Account:
     def __init__(self, currency: str, initial_balance: float = 0):
         self.account_number = Account.auto_account_number
         Account.auto_account_number += 1
+        self.transactions = []
         self.currency = currency
         self.initial_balance = initial_balance
         self.timestamp = datetime.datetime.now()
+
+    def add_money(self, amount: float, note: str):
+        self.transactions.append(Transaction(amount, note))
+
+    def get_money(self, transaction: Transaction):
+        self.transactions.append(transaction)
+
+#UZDEVUMS
+#Kontam lai ir metode add_money (pievenos jaunu tranzakciju ar pozitivo summas vertibu)
+#Kontam lai ir metode get_money (pievienos jaunu tranzakciju ar negativo summas versibu)
+#Visas tranzakcijas tiek glabas konta
+
 
 class Client:
     def __init__(self, name: str):
