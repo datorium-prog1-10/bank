@@ -1,11 +1,6 @@
-#Client class
-#name
-#timestamp (optional)
-
 import datetime
 from turtle import settiltangle
 
-#UZDEVUMS: izveido klasi Transaction
 class Transaction:
     def __init__(self, amount: float = 0, note: str = ''):
         self.amount = amount
@@ -18,13 +13,27 @@ class Account:
     def __init__(self, currency: str, initial_balance: float = 0):
         self._account_number = Account.auto_account_number
         Account.auto_account_number += 1
+        self.transactions = []
         self.currency = currency
         self.initial_balance = initial_balance
         self.timestamp = datetime.datetime.now()
 
-    @property #decorators
+    @property #decorators    
     def account_number(self):
         return self._account_number
+
+    def add_money(self, amount: float, note: str):
+        self.transactions.append(Transaction(amount, note))
+
+    def get_money(self, amount: float, note: str):
+        self.transactions.append(Transaction(-amount, note))
+
+    def calculate_balance(self):
+        balance = self.initial_balance
+        for transaction in self.transactions:
+            balance += transaction.amount
+
+        return balance
 
 class Client:
     def __init__(self, name: str):
@@ -54,8 +63,8 @@ clients[1].add_account(Account('JPY', 10000))
 
 clients[2].add_account(Account('EUR'))
 
-clients[0].accounts[0].account_number = '999999999999'
+clients[0].accounts[0].add_money(500, "Alga")
+clients[0].accounts[0].get_money(100, "Veikals RIMI")
+clients[0].accounts[0].get_money(50, "Restorāns Silta Saule")
 
-
-for client in clients:
-    client.print_accounts()
+print(clients[0].accounts[0].calculate_balance())

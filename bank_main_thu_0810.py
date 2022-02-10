@@ -28,13 +28,6 @@ class Account:
     def get_money(self, amount: float, note: str):
         self.transactions.append(Transaction(-amount, note))
 
-    def calculate_balance(self):
-        balance = self.initial_balance
-        for transaction in self.transactions:
-            balance += transaction.amount
-        
-        return balance
-
 class Client:
     def __init__(self, name: str):
         self.name = name
@@ -71,5 +64,3 @@ clients[2].add_account(Account('EUR'))
 clients[0].accounts[0].add_money(500, "Alga")
 clients[0].accounts[0].get_money(100, "Veikals RIMI")
 clients[0].accounts[0].get_money(50, "Restorāns Silta Saule")
-
-print(clients[0].accounts[0].calculate_balance())
