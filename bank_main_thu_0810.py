@@ -25,14 +25,15 @@ class Account:
     def add_money(self, amount: float, note: str):
         self.transactions.append(Transaction(amount, note))
 
-    def get_money(self, transaction: Transaction):
-        self.transactions.append(transaction)
+    def get_money(self, amount: float, note: str):
+        self.transactions.append(Transaction(-amount, note))
 
-#UZDEVUMS
-#Kontam lai ir metode add_money (pievenos jaunu tranzakciju ar pozitivo summas vertibu)
-#Kontam lai ir metode get_money (pievienos jaunu tranzakciju ar negativo summas versibu)
-#Visas tranzakcijas tiek glabas konta
-
+    def calculate_balance(self):
+        balance = self.initial_balance
+        for transaction in self.transactions:
+            balance += transaction.amount
+        
+        return balance
 
 class Client:
     def __init__(self, name: str):
@@ -48,12 +49,6 @@ class Client:
         for account in self.accounts:
             print(f'{account.account_number} ({account.currency} {account.initial_balance})')        
 
-#UZDEVUMS: izveido metodu klientiem, kas izdrukā visus lklienta kontus šādā formātā:
-#PIEMĒRS
-#Accounts of client Anna
-#1234567890 (EUR 200)
-#1234567891 (USD 150)
-#1234567892 (CAD 300)  
 
 
 clients = []
@@ -70,5 +65,11 @@ clients[1].add_account(Account('JPY', 10000))
 
 clients[2].add_account(Account('EUR'))
 
-for client in clients:
-    client.print_accounts()
+#for client in clients:
+#    client.print_accounts()
+
+clients[0].accounts[0].add_money(500, "Alga")
+clients[0].accounts[0].get_money(100, "Veikals RIMI")
+clients[0].accounts[0].get_money(50, "Restorāns Silta Saule")
+
+print(clients[0].accounts[0].calculate_balance())
